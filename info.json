@@ -1,0 +1,9 @@
+{
+  "info": "all info related to academia end-points and their respective headers, parameters and payload structure.",
+  "auth": {
+    "payload": {
+      "username": "your_univ_mail_id",
+      "password": "your_academia_password"
+    }
+  }
+}
