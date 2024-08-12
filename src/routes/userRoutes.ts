@@ -1,9 +1,8 @@
-// import express from "express";
-// import { getUsers, createUser } from "../controllers/userController";
+import express from "express";
+import { Attendance } from "../controllers/userController";
 
-// const router = express.Router();
+const router = express.Router();
 
-// router.get("/", getUsers);
-// router.post("/", createUser);
+router.post("/attendance", Attendance);
 
-// export default router;
+export default router;
