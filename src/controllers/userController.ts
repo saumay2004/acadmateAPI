@@ -47,7 +47,11 @@ export async function Attendance(req: Request, res: Response) {
       }
     );
 
-    if (attendanceResponse.status === 200) {
+    if (
+      attendanceResponse.status === 200 &&
+      attendanceResponse.data &&
+      attendanceResponse.data.HTML
+    ) {
       const decodedHTML = decodeEncodedString(attendanceResponse.data.HTML);
       const result = extractTextBetweenWords(
         decodedHTML,
@@ -58,6 +62,8 @@ export async function Attendance(req: Request, res: Response) {
       if (result) {
         const $ = cheerio.load(result);
         let response: ResponseData = { user: [], attendance: [], marks: [] };
+
+        // user data
         $("div.cntdDiv > div > table:nth-child(2) > tbody > tr").each(
           (i, row) => {
             const details = $(row)
@@ -72,7 +78,7 @@ export async function Attendance(req: Request, res: Response) {
           }
         );
 
-        //for attendance here are iterations!!
+        // attendance data
         $("div.cntdDiv > div > table:nth-child(4) > tbody > tr").each(
           (i, row) => {
             const details = $(row)
@@ -81,12 +87,12 @@ export async function Attendance(req: Request, res: Response) {
               .get();
 
             if (details.length > 1) {
-              const [detail, value] = details;
               response.attendance.push(details);
             }
           }
         );
-        //for marks
+
+        // marks data
         $("div.cntdDiv > div > table:nth-child(7) > tbody > tr").each(
           (i, row) => {
             const details = $(row)
@@ -99,12 +105,15 @@ export async function Attendance(req: Request, res: Response) {
             }
           }
         );
+
         res.status(200).json(response);
       } else {
         res.status(404).json({ error: "Element not found" });
       }
     } else {
-      res.status(attendanceResponse.status).json(attendanceResponse.data);
+      res
+        .status(attendanceResponse.status)
+        .json({ error: "HTML content not found or request failed" });
     }
   } catch (err: any) {
     console.error("Error fetching attendance data:", err.message);

@@ -10,7 +10,6 @@ export async function auth(req: Request, res: Response) {
   try {
     const payload = req.body as AuthProps | null;
 
-    // Getting and storing cookies from the first request
     const cookieGetResponseOne = await axios.get(
       "https://academia.srmist.edu.in/",
       {
@@ -21,7 +20,6 @@ export async function auth(req: Request, res: Response) {
       }
     );
 
-    // Getting and storing cookies from the second request
     const cookieGetResponseTwo = await axios.get(
       "https://academia.srmist.edu.in/accounts/p/10002227248/signin?hide_fp=true&servicename=ZohoCreator&service_language=en&css_url=/49910842/academia-academic-services/downloadPortalCustomCss/login&dcc=true&serviceurl=https%3A%2F%2Facademia.srmist.edu.in%2Fportal%2Facademia-academic-services%2FredirectFromLogin",
       {
@@ -35,7 +33,6 @@ export async function auth(req: Request, res: Response) {
     const setCookieHeaderOne = cookieGetResponseOne.headers["set-cookie"];
     const setCookieHeaderTwo = cookieGetResponseTwo.headers["set-cookie"];
 
-    // Combine cookies from both responses into one array
     let allCookies: string[] = [];
     if (setCookieHeaderOne) {
       allCookies = allCookies.concat(setCookieHeaderOne);
@@ -44,7 +41,6 @@ export async function auth(req: Request, res: Response) {
       allCookies = allCookies.concat(setCookieHeaderTwo);
     }
 
-    // Function to split and trim cookie strings
     function splitCookieString(cookieString: string): string[] {
       return cookieString
         .split(";")
@@ -53,7 +49,6 @@ export async function auth(req: Request, res: Response) {
     }
     console.log(allCookies);
     if (allCookies.length > 0) {
-      // Convert the array of cookies into a single string before splitting
       const combinedCookieString = allCookies.join("; ");
       (req as any).session.cookies = splitCookieString(combinedCookieString);
     }
