@@ -33,7 +33,7 @@ function extractTextBetweenWords(
 export async function Attendance(req: Request, res: Response) {
   try {
     const cookies = (req as any).session?.cookies || "";
-
+    // console.log(cookies);
     const attendanceResponse = await axios.get(
       `https://academia.srmist.edu.in/srm_university/academia-academic-services/page/My_Attendance`,
       {
@@ -46,19 +46,13 @@ export async function Attendance(req: Request, res: Response) {
         },
       }
     );
-
-    if (
-      attendanceResponse.status === 200 &&
-      attendanceResponse.data &&
-      attendanceResponse.data.HTML
-    ) {
-      const decodedHTML = decodeEncodedString(attendanceResponse.data.HTML);
+    if (attendanceResponse.status === 200 && attendanceResponse.data) {
+      const decodedHTML = decodeEncodedString(attendanceResponse.data);
       const result = extractTextBetweenWords(
         decodedHTML,
         "</style>\n",
         "');function doaction(recType) { }</script>"
       );
-
       if (result) {
         const $ = cheerio.load(result);
         let response: ResponseData = { user: [], attendance: [], marks: [] };
@@ -78,7 +72,6 @@ export async function Attendance(req: Request, res: Response) {
           }
         );
 
-        // attendance data
         $("div.cntdDiv > div > table:nth-child(4) > tbody > tr").each(
           (i, row) => {
             const details = $(row)
