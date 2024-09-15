@@ -1,6 +1,6 @@
 import express from "express";
 // import helmet from "helmet";
-// import cors from "cors";
+import cors from "cors";
 
 import userRoutes from "./routes/userRoutes";
 import authRoutes from "./routes/authRoutes";
@@ -31,9 +31,8 @@ app.use(
   })
 );
 
-// Middleware
 // app.use(helmet());
-// app.use(cors());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json());
 
 // Routes
