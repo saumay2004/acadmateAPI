@@ -32,7 +32,7 @@ app.use(
 );
 
 // app.use(helmet());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(cors({ origin: "http://localhost:3001", credentials: true }));
 app.use(express.json());
 
 // Routes
