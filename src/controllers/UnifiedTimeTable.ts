@@ -34,7 +34,7 @@ function extractTextBetweenWords(
 
 export async function UnifiedTimeTable(req: Request, res: Response) {
   try {
-    const batch = req.query.batch;
+    const batch = req.headers.batch;
     const batchNumber = parseInt(batch as string, 10);
 
     if (!batch) {

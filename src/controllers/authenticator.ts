@@ -47,7 +47,6 @@ export async function auth(req: Request, res: Response) {
         .map((cookie: string) => cookie.trim())
         .filter((cookie: string) => cookie.length > 0);
     }
-    console.log(allCookies);
     if (allCookies.length > 0) {
       const combinedCookieString = allCookies.join("; ");
       (req as any).session.cookies = splitCookieString(combinedCookieString);
@@ -61,9 +60,8 @@ export async function auth(req: Request, res: Response) {
 
     const { username, password } = payload;
     const cli_time = Date.now();
-    const serviceurl = encodeURIComponent(
-      "https://academia.srmist.edu.in/portal/academia-academic-services/redirectFromLogin"
-    );
+    const serviceurl =
+      "https://academia.srmist.edu.in/portal/academia-academic-services/redirectFromLogin";
     const requestBody = `mode=primary&cli_time=${cli_time}&servicename=ZohoCreator&service_language=en&serviceurl=${serviceurl}`;
 
     const lookupResponse = await axios.post(
@@ -79,11 +77,10 @@ export async function auth(req: Request, res: Response) {
           Origin: "https://academia.srmist.edu.in",
           Referer:
             "https://academia.srmist.edu.in/accounts/p/10002227248/signin?hide_fp=true&servicename=ZohoCreator&service_language=en&css_url=/49910842/academia-academic-services/downloadPortalCustomCss/login&dcc=true&serviceurl=https%3A%2F%2Facademia.srmist.edu.in%2Fportal%2Facademia-academic-services%2FredirectFromLogin",
-          "X-Zcsrf-Token": `iamcsrcoo=${cookies[28].slice(7)}`,
+          "X-Zcsrf-Token": `iamcsrcoo=${cookies[32].slice(7)}`,
         },
       }
     );
-
     const data = lookupResponse.data;
     const userNameCorrect = data.message;
 
@@ -108,7 +105,7 @@ export async function auth(req: Request, res: Response) {
           Origin: "https://academia.srmist.edu.in",
           Referer:
             "https://academia.srmist.edu.in/accounts/p/10002227248/signin?hide_fp=true&servicename=ZohoCreator&service_language=en&css_url=/49910842/academia-academic-services/downloadPortalCustomCss/login&dcc=true&serviceurl=https%3A%2F%2Facademia.srmist.edu.in%2Fportal%2Facademia-academic-services%2FredirectFromLogin",
-          "X-Zcsrf-Token": `iamcsrcoo=${cookies[28].slice(7)}`,
+          "X-Zcsrf-Token": `iamcsrcoo=${cookies[32].slice(7)}`,
         },
       });
       const setCookieHeaderThree = passwordResponse.headers["set-cookie"];
@@ -118,7 +115,7 @@ export async function auth(req: Request, res: Response) {
         (req as any).session.cookies = splitCookieString(combinedCookieString);
       }
       const passwordData = passwordResponse.data;
-      console.log((req as any).session.cookies);
+      // console.log((req as any).session.cookies);
       if (passwordData.message === "Sign in success") {
         console.log("success");
         res.status(200).json({ message: "Sign in success" });

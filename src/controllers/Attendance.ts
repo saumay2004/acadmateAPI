@@ -58,7 +58,6 @@ export async function Attendance(req: Request, res: Response) {
         const $ = cheerio.load(result);
         let response: ResponseData = { user: [], attendance: [], marks: [] };
 
-        // user data
         $("div.cntdDiv > div > table:nth-child(2) > tbody > tr").each(
           (i, row) => {
             const details = $(row)
@@ -73,7 +72,6 @@ export async function Attendance(req: Request, res: Response) {
           }
         );
 
-        // attendance data (skipping the first row)
         const attendanceHeadings = [
           "Course Code",
           "Course Title",
@@ -111,7 +109,7 @@ export async function Attendance(req: Request, res: Response) {
         ];
 
         $("div.cntdDiv > div > table:nth-child(7) > tbody > tr")
-          .slice(1) // Skip the first row (headers)
+          .slice(1)
           .each((i, row) => {
             const details = $(row)
               .find("td")
@@ -141,4 +139,3 @@ export async function Attendance(req: Request, res: Response) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 }
-

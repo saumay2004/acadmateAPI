@@ -39,9 +39,15 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@20.14.10)(typescript@5.5.3)
     devDependencies:
+      '@types/cors':
+        specifier: ^2.8.17
+        version: 2.8.17
       '@types/express':
         specifier: ^4.17.21
         version: 4.17.21
+      '@types/express-session':
+        specifier: ^1.18.0
+        version: 1.18.0
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
@@ -109,8 +115,14 @@ packages:
   '@types/connect@3.4.38':
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
 
+  '@types/cors@2.8.17':
+    resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
+
   '@types/express-serve-static-core@4.19.5':
     resolution: {integrity: sha512-y6W03tvrACO72aijJ5uF02FRq5cgDR9lUxddQ8vyF+GvmjJQqbzDcJngEjURc+ZsG31VI3hODNZJ2URj86pzmg==}
+
+  '@types/express-session@1.18.0':
+    resolution: {integrity: sha512-27JdDRgor6PoYlURY+Y5kCakqp5ulC0kmf7y+QwaY+hv9jEFuQOThgkjyA53RP3jmKuBsH5GR6qEfFmvb8mwOA==}
 
   '@types/express@4.17.21':
     resolution: {integrity: sha512-ejlPM315qwLpaQlQDTjPdsUFSc6ZsP4AN6AlWnogPjQ7CVi7PYF3YVz+CY3jE2pwYf7E/7HlDAN0rV2GxTG0HQ==}
@@ -779,12 +791,20 @@ snapshots:
     dependencies:
       '@types/node': 20.14.10
 
+  '@types/cors@2.8.17':
+    dependencies:
+      '@types/node': 20.14.10
+
   '@types/express-serve-static-core@4.19.5':
     dependencies:
       '@types/node': 20.14.10
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
+
+  '@types/express-session@1.18.0':
+    dependencies:
+      '@types/express': 4.17.21
 
   '@types/express@4.17.21':
     dependencies:

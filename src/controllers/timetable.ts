@@ -23,8 +23,6 @@ const expectedHeaders = [
   "Academic Year",
 ];
 
-const advisorHeaders = ["Counselor", "Faculty Advisor", "Academic Advisor"];
-
 function decodeEncodedString(encodedString: string): string {
   return encodedString.replace(
     /\\x([0-9A-Fa-f]{2})/g,
