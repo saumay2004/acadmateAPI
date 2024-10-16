@@ -58,7 +58,6 @@ export async function Attendance(req: Request, res: Response) {
         const $ = cheerio.load(result);
         let response: ResponseData = { user: [], attendance: [], marks: [] };
 
-        // user data
         $("div.cntdDiv > div > table:nth-child(2) > tbody > tr").each(
           (i, row) => {
             const details = $(row)

@@ -60,9 +60,8 @@ export async function auth(req: Request, res: Response) {
 
     const { username, password } = payload;
     const cli_time = Date.now();
-    const serviceurl = encodeURIComponent(
-      "https%3A%2F%2Facademia.srmist.edu.in%2Fportal%2Facademia-academic-services%2FredirectFromLogin"
-    );
+    const serviceurl =
+      "https://academia.srmist.edu.in/portal/academia-academic-services/redirectFromLogin";
     const requestBody = `mode=primary&cli_time=${cli_time}&servicename=ZohoCreator&service_language=en&serviceurl=${serviceurl}`;
 
     const lookupResponse = await axios.post(
