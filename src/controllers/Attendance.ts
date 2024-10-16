@@ -53,7 +53,6 @@ export async function Attendance(req: Request, res: Response) {
         "</style>\n",
         "');function doaction(recType) { }</script>"
       );
-
       if (result) {
         const $ = cheerio.load(result);
         let response: ResponseData = { user: [], attendance: [], marks: [] };
@@ -107,7 +106,6 @@ export async function Attendance(req: Request, res: Response) {
           "Course Type",
           "Test Performance",
         ];
-
         $("div.cntdDiv > div > table:nth-child(7) > tbody > tr")
           .slice(1)
           .each((i, row) => {
@@ -115,15 +113,37 @@ export async function Attendance(req: Request, res: Response) {
               .find("td")
               .map((_, td) => $(td).text().trim())
               .get();
-
+        
             if (details.length > 1) {
-              const marksData: { [key: string]: string } = {};
+              const marksData: { [key: string]: any } = {};
+        
               marksHeadings.forEach((heading, index) => {
-                marksData[heading] = details[index];
+                if (heading === "Test Performance") {
+                  marksData[heading] = parseTestPerformance(details[index]);
+                } else {
+                  marksData[heading] = details[index];
+                }
               });
               response.marks.push(marksData);
             }
           });
+        
+        // Helper function to parse test performance into a structured format
+        function parseTestPerformance(performance: string): { [key: string]: number[] } {
+          const tests: { [key: string]: number[] } = {};
+        
+          // Match patterns like "FP-I/10.009.50", "PBL-I/20.0019.00" etc.
+          const performancePattern = /([A-Za-z0-9-]+)\/(\d+\.\d+)(\d+\.\d+)/g;
+          let match;
+        
+          while ((match = performancePattern.exec(performance)) !== null) {
+            const testName = match[1];
+            const scores = [parseFloat(match[2]), parseFloat(match[3])];
+            tests[testName] = scores;
+          }
+        
+          return tests;
+        }        
 
         res.status(200).json(response);
       } else {
