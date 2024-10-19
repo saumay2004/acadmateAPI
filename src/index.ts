@@ -25,7 +25,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       secure: true,
-      sameSite: "None",
+      sameSite: "Lax",
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: false,
       // domain: ".localhost",
