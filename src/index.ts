@@ -1,5 +1,5 @@
 import express from "express";
-import helmet from "helmet";
+// import helmet from "helmet";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
@@ -24,7 +24,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: true,
+      secure: false,
       sameSite: "None",
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
@@ -32,7 +32,7 @@ app.use(
   })
 );
 
-app.use(helmet());
+// app.use(helmet());
 app.use(
   cors({ origin: "https://acadbud.vercel.app" || "http://localhost:3000", credentials: true })
 );
