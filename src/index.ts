@@ -1,7 +1,7 @@
 import express from "express";
 import helmet from "helmet";
 import cors from "cors";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 import userRoutes from "./routes/userRoutes";
 import authRoutes from "./routes/authRoutes";
@@ -12,7 +12,7 @@ const app = express();
 const client = require("./redisClient");
 const session = require("express-session");
 const RedisStore = require("connect-redis").default;
-const frontend = process.env.FE_URL
+const frontend = process.env.FE_URL;
 
 let redisStore = new RedisStore({
   client: client,
@@ -24,17 +24,19 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: true,
-      sameSite: "Lax",
-      maxAge: 1000 * 60 * 60 * 24 * 7,
+      path: "/",
       httpOnly: false,
-      // domain: ".localhost",
+      maxAge: 86400000,
+      sameSite: "None",
+      secure: true,
     },
   })
 );
 
 app.use(helmet());
-app.use(cors({ origin: frontend || "http://localhost:3000", credentials: true }));
+app.use(
+  cors({ origin: frontend || "http://localhost:3000", credentials: true })
+);
 app.use(express.json());
 
 // Routes
