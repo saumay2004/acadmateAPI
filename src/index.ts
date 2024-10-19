@@ -8,7 +8,7 @@ import authRoutes from "./routes/authRoutes";
 import { notFound, errorHandler } from "./middleware/errorMiddleware";
 
 const app = express();
-
+app.set("trust proxy", 1);
 const client = require("./redisClient");
 const session = require("express-session");
 const RedisStore = require("connect-redis").default;
