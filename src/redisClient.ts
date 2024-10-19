@@ -1,10 +1,10 @@
-import { createClient } from "redis"
+import { createClient } from "redis";
 
-const client = createClient ({
+const client = createClient({
   url: process.env.REDIS_URL,
   socket: {
     tls: true,
-    connectTimeout: 20000, // Increase timeout to 20 seconds
+    connectTimeout: 20000,
   },
 });
 
