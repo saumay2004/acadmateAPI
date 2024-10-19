@@ -1,7 +1,11 @@
-const redis = require("redis");
+import { createClient } from "redis"
 
-const client = redis.createClient({
-  url: "redis://localhost:6379",
+const client = createClient ({
+  url: process.env.REDIS_URL,
+  socket: {
+    tls: true,
+    connectTimeout: 20000, // Increase timeout to 20 seconds
+  },
 });
 
 client.on("error", (error: any) => {
