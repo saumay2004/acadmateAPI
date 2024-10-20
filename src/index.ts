@@ -17,6 +17,9 @@ const frontend = process.env.FE_URL;
 let redisStore = new RedisStore({
   client: client,
 });
+
+const isProduction = process.env.NODE_ENV === "production";
+
 app.use(
   session({
     store: redisStore,
@@ -24,7 +27,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      secure: true,
+      secure: isProduction,
       sameSite: "None",
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: false,
@@ -33,16 +36,27 @@ app.use(
 );
 
 app.use(helmet());
+
+const allowedOrigins = ["https://acadbud.vercel.app", "http://localhost:3000"];
 app.use(
-  cors({ origin: "https://acadbud.vercel.app" || "http://localhost:3000", credentials: true })
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = `cors issue`;
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true, 
+  })
 );
+
 app.use(express.json());
 
-// Routes
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 
-// Error Handling Middleware
 app.use(notFound);
 app.use(errorHandler);
 
