@@ -37,7 +37,7 @@ app.use(
 
 app.use(helmet());
 
-const allowedOrigins = ["https://acadbud.vercel.app", "http://localhost:3000", "https://saumay.shashstorm.in/login"];
+const allowedOrigins = ["https://acadbud.vercel.app", "http://localhost:3000", "https://saumay.shashstorm.in"];
 app.use(
   cors({
     origin: function (origin, callback) {
