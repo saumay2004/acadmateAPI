@@ -37,17 +37,10 @@ app.use(
 
 app.use(helmet());
 
-const allowedOrigins = ["https://acadbud.vercel.app", "http://localhost:3000"];
+const allowedOrigins = ["*"];
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) === -1) {
-        const msg = `cors issue`;
-        return callback(new Error(msg), false);
-      }
-      return callback(null, true);
-    },
+    origin: "*",
     credentials: true, 
   })
 );
