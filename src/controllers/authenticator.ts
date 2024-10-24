@@ -59,9 +59,10 @@ export async function auth(req: Request, res: Response) {
     }
 
     const { username, password } = payload;
+    const lower_usr = username.toLowerCase();
     const new_usr = lower_usr.includes("@srmist.edu.in")
-      ? username
-      : username + "@srmist.edu.in";
+      ? lower_usr
+      : lower_usr + "@srmist.edu.in";
     const cli_time = Date.now();
     const serviceurl =
       "https://academia.srmist.edu.in/portal/academia-academic-services/redirectFromLogin";
