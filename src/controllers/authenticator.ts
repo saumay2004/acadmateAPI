@@ -59,13 +59,16 @@ export async function auth(req: Request, res: Response) {
     }
 
     const { username, password } = payload;
+    const new_usr = lower_usr.includes("@srmist.edu.in")
+      ? username
+      : username + "@srmist.edu.in";
     const cli_time = Date.now();
     const serviceurl =
       "https://academia.srmist.edu.in/portal/academia-academic-services/redirectFromLogin";
     const requestBody = `mode=primary&cli_time=${cli_time}&servicename=ZohoCreator&service_language=en&serviceurl=${serviceurl}`;
 
     const lookupResponse = await axios.post(
-      `https://academia.srmist.edu.in/accounts/p/10002227248/signin/v2/lookup/${username}`,
+      `https://academia.srmist.edu.in/accounts/p/10002227248/signin/v2/lookup/${new_usr}`,
       requestBody,
       {
         headers: {
