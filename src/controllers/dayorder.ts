@@ -9,7 +9,9 @@ function decodeEncodedString(encodedString: string): string {
 }
 
 function extractDayOrder(text: string): number | null {
-  const dayOrderMatch = text.match(/Day Order:([1-5])/);
+  const dayOrderMatch = text.match(/Day Order:(?:[1-5]|No Day Order)/);
+
+  console.log(dayOrderMatch);
   if (dayOrderMatch && dayOrderMatch[1]) {
     return parseInt(dayOrderMatch[1]);
   }
@@ -33,6 +35,7 @@ export async function Order(req: Request, res: Response) {
 
     if (OrderResponse.status === 200 && OrderResponse.data) {
       const decodedHTML = decodeEncodedString(OrderResponse.data);
+      console.log(decodedHTML);
       const dayOrder = extractDayOrder(decodedHTML);
 
       if (dayOrder !== null) {
