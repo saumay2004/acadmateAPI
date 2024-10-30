@@ -35,7 +35,7 @@ export async function Order(req: Request, res: Response) {
       const decodedHTML = decodeEncodedString(OrderResponse.data);
       const dayOrder = extractDayOrder(decodedHTML);
 
-      if (dayOrder !== null) {
+      if (dayOrder) {
         res.status(200).json({ dayOrder });
       } else {
         console.log("Day Order not found");
