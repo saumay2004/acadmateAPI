@@ -8,12 +8,16 @@ function decodeEncodedString(encodedString: string): string {
   );
 }
 
-function extractDayOrder(text: string): number | null {
-  const dayOrderMatch = text.match(/Day Order:([1-5]|No Day Order)/);
+function extractDayOrder(text: string): string | number {
+  const dayOrderMatch = text.match(/Day Order:([1-5])/);
   if (dayOrderMatch && dayOrderMatch[1]) {
     return parseInt(dayOrderMatch[1]);
   }
-  return null;
+
+  if (text.includes("Day Order:No Day Order")) {
+    return "No Day Order";
+  }
+  return "No Day Order";
 }
 
 export async function Order(req: Request, res: Response) {
@@ -35,12 +39,7 @@ export async function Order(req: Request, res: Response) {
       const decodedHTML = decodeEncodedString(OrderResponse.data);
       const dayOrder = extractDayOrder(decodedHTML);
 
-      if (dayOrder !== null) {
-        res.status(200).json({ dayOrder });
-      } else {
-        console.log("Day Order not found");
-        res.status(404).json({ error: "Day Order not found in the content" });
-      }
+      res.status(200).json({ dayOrder });
     } else {
       res
         .status(OrderResponse.status)
