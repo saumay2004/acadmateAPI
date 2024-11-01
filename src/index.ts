@@ -12,7 +12,6 @@ app.set("trust proxy", 1);
 const client = require("./redisClient");
 const session = require("express-session");
 const RedisStore = require("connect-redis").default;
-const frontend = process.env.FE_URL;
 
 let redisStore = new RedisStore({
   client: client,
@@ -28,7 +27,7 @@ app.use(
     saveUninitialized: true,
     cookie: {
       secure: isProduction,
-      sameSite: "None",
+      sameSite: "Lax",
       maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: false,
     },
@@ -37,7 +36,11 @@ app.use(
 
 app.use(helmet());
 
-const allowedOrigins = ["https://acadbud.vercel.app", "http://localhost:3000", "https://acadmate.in"];
+const allowedOrigins = [
+  "https://acadbud.vercel.app",
+  "http://localhost:3000",
+  "https://acadmate.in",
+];
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -48,7 +51,7 @@ app.use(
       }
       return callback(null, true);
     },
-    credentials: true, 
+    credentials: true,
   })
 );
 
